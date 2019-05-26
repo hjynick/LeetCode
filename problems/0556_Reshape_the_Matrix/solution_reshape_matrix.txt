@@ -1,0 +1,115 @@
+#include <iostream>
+#include <fstream>
+
+int x = [](){
+ios::sync_with_stdio(false);
+cin.tie(NULL);
+return 0;
+}();
+​
+class Solution {
+
+public:
+
+  
+
+/*    void output_vec(vector<vector<int>>& nums) {
+      for( auto r: nums ) {
+
+        cout << "[";
+
+        for (auto c : r) {
+
+          cout << c << ", ";
+
+        }
+        cout << "] ";
+      }
+
+    }
+*/
+    vector<vector<int>> matrixReshape(vector<vector<int>>& nums, int r, int c) {
+
+      int const row_size = nums.size();
+      int const column_size = nums[0].size();
+      int const new_size = r * c;
+
+​
+
+      if ( new_size == (row_size * column_size)) {
+
+        
+
+        if ( c > column_size) {
+
+          // Resize
+
+          for (int i = 0; i < r;++i) nums[i].resize(c);
+
+          
+          int new_row = 0;
+          int new_column = column_size;
+          int old_row = 1;
+          int old_column = 0;          
+
+          while (new_row < r) {
+
+            nums[new_row][new_column] = nums[old_row][old_column];
+
+            if (++new_column == c) {
+              new_column = 0;
+              ++new_row;
+            }
+
+            if (++old_column == column_size) {
+              old_column = 0;
+              ++old_row;
+            }
+          }
+          
+          nums.resize(r);
+
+
+        } else {        
+
+          nums.resize(r);
+
+        
+
+          int old_row = row_size - 1;
+          int old_column = column_size - 1;
+          int new_row = r -1;
+
+          int new_column = c - 1;
+          
+          // Resize the first new row
+          nums[new_row].resize(c);
+          while (new_row) {
+            
+            nums[new_row][new_column] = nums[old_row][old_column];
+            
+            if (new_column == 0) {              
+              new_column = c - 1;
+              nums[--new_row].resize(c);
+            } else {
+              --new_column;
+            }
+            
+
+            if (old_row && old_column == 0) {
+
+              --old_row;
+
+              old_column = column_size - 1;
+
+            } else {
+              --old_column;
+            }
+          }
+          nums[0].resize(c);
+        }
+      } 
+      
+      return nums;
+    }
+	};
